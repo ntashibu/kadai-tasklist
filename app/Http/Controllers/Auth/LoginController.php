@@ -25,7 +25,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // リダイレクト先をトップページへ 201904061627
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.

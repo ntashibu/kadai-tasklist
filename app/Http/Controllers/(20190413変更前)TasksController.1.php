@@ -57,11 +57,10 @@ class TasksController extends Controller
             'content' => 'required|max:10',
         ]);
 
-        // 201904131658
-        $request->user()->tasks()->create([
-            'status' => $request->status,
-            'content' => $request->content,
-        ]);
+        $task = new Task;
+        $task->status = $request->status;
+        $task->content = $request->content;
+        $task->save();
 
         return back();
     }
@@ -126,12 +125,9 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = \App\Task::find($id);
-        
-        if (\Auth::id() === $micropost->user_id) {
+        $task = Task::find($id);
         $task->delete();
-        }
-        
+
         return back();
     }
 }

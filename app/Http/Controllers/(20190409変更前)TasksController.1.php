@@ -15,12 +15,21 @@ class TasksController extends Controller
      */
     public function index()
     {
+        // 条件分岐追加　ログイン中→タスク全件表示、未ログイン→welcomeへ　201904062000
+    //    if (\Auth::check()) {
+    //        $tasks = Task::all();
+
+    //        return view('tasks.index', [
+    //           'tasks' => $tasks,
+    //        ]);
+    //    }else{
+    //        return view('welcome');
+    //    }
+    //}
         // 自分のタスクのみが表示されるように　201904080235
         if (\Auth::check()) {
             $user = \Auth::user();
-            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
-
-        //dd($tasks);
+            $tasks = $user->tasks();
     
             return view('tasks.index', [
                 'tasks' => $tasks,
@@ -57,13 +66,12 @@ class TasksController extends Controller
             'content' => 'required|max:10',
         ]);
 
-        // 201904131658
-        $request->user()->tasks()->create([
-            'status' => $request->status,
-            'content' => $request->content,
-        ]);
+        $task = new Task;
+        $task->status = $request->status;
+        $task->content = $request->content;
+        $task->save();
 
-        return back();
+        return redirect('/');
     }
 
     /**
@@ -126,12 +134,9 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = \App\Task::find($id);
-        
-        if (\Auth::id() === $micropost->user_id) {
+        $task = Task::find($id);
         $task->delete();
-        }
-        
-        return back();
+
+        return redirect('/');
     }
 }
