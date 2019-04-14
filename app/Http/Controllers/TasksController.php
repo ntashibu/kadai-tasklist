@@ -80,6 +80,9 @@ class TasksController extends Controller
             'task' => $task,
         ]);
         }
+        
+        //リダイレクト先追記 20190414
+        return redirect('/');
     }
 
     /**
@@ -97,6 +100,9 @@ class TasksController extends Controller
             'task' => $task,
         ]);
         }
+        
+        //リダイレクト先追記 20190414
+        return redirect('/');
     }
 
     /**
